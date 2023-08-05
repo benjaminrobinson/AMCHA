@@ -59,15 +59,17 @@ map_dfr(hillel, function(x) {
     ) %>%
     mutate(
       school = sch_nm,
+      url = x,
       across(contains("students_n"), ~ as.numeric(sub("[,]", "", .))),
       across(contains("students_perc"), ~ as.numeric(sub("[%]", "", .)) /
                100),
       student_type = ifelse(row_number() == 1, 'Undergraduate', 'Graduate')
     ) %>%
-    select(student_type, school, contains('jewish'), contains('total')) %>%
+    select(student_type, school, url, contains('jewish'), contains('total')) %>%
     adorn_totals %>%
     mutate(
       school = ifelse(school == '-', sch_nm, school),
+      url = ifelse(url == '-', x, url),
       jewish_students_perc_real = jewish_students_n / total_students_n,
       jewish_students_perc = ifelse(
         student_type == 'Total',
@@ -78,5 +80,5 @@ map_dfr(hillel, function(x) {
 }) -> jews
 
 write.csv(jews,
-          "C:/Users/benjr/Desktop/hillel_jewish_students.csv",
+          "C:/Users/benjr/Desktop/Projects/AMCHA/hillel_jewish_students.csv",
           row.names = FALSE)

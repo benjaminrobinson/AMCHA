@@ -1,5 +1,5 @@
 #### SCRAPE AMCHA INITIATIVE ANTISEMITISM DATASET ####
-library((httr)
+library(httr)
 library(jsonlite)
 library(stringr)
 library(dplyr)
@@ -8,6 +8,8 @@ library(purrr)
 
 # 'https://amchainitiative.org/search-by-incident/'
 # GO TO CURLCONVERTER.COM AND FOLLOW INSTRUCTIONS TO GET R CODE BELOW
+
+
 
 res <- purrr::map_dfr(1:6, function(x) {
   Sys.sleep(5)
@@ -122,4 +124,5 @@ res2 <- purrr::pmap_dfr(list(res$incident_id), function(x) {
 
 res %>%
   dplyr::left_join(res2, by = 'incident_id') %>%
-  write.csv("amcha_init.csv", row.names = FALSE)
+  write.csv("C:/Users/benjr/Desktop/Projects/AMCHA/amcha_init.csv",
+            row.names = FALSE)
